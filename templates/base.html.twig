@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html data-bs-theme="dark">
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
@@ -17,16 +18,18 @@
             <div class="navbar navbar-dark bg-dark box-shadow">
                 <div class="container d-flex justify-content-between">
                     <a href="#" class="navbar-brand d-flex align-items-center">
-                        <strong>Dull.li</strong><span style="margin-left: 5px">Shortener</span>
+                        <strong>Dull.li</strong><span style="margin-left: 5px" class="text-secondary">Shortener</span>
                     </a>
                 </div>
             </div>
         </header>
-        <main role="main">
+        <main role="main" class="d-flex flex-row align-items-center justify-content-center">
             {% block body %}{% endblock %}
         </main>
-        <footer>
-
+        <footer class="bd-footer py-1 py-md-3 mt-5 bg-dark box-shadow">
+            <div class="container">
+                S
+            </div>
         </footer>
     </body>
 </html>

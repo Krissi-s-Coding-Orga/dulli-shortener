@@ -2,6 +2,33 @@
 @import "@mdi/font/css/materialdesignicons.css";
 
 body {
+  background-repeat: no-repeat;
   height: 100%;
-  background-image: url("images/background.jpg");
+  background-size: cover;
+  background-image: url("images/background.webp");
+}
+
+main {
+  height: 80vh;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.card {
+  background-color: rgba(33, 37, 41, 0.62);
+  backdrop-filter: blur(3px);
+}
+
+.main-card {
+  width: 550px;
+}
+
+@media (max-width: #{768px}) {
+  .main-card {
+    width: 75%;
+  }
 }

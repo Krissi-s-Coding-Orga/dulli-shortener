@@ -3,18 +3,62 @@
 {% block title %}Hello MainController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/var/www/html/src/Controller/MainController.php</code></li>
-        <li>Your template at <code>/var/www/html/templates/main/index.html.twig</code></li>
-    </ul>
-</div>
+    <div class="card border-0 main-card">
+        <div class="card-body">
+            <form class="form-inline">
+                <h5 class="card-title">Generate Shorter URL with ez</h5>
+                <div class="form-group my-2">
+                    <input type="text" class="form-control bg-transparent" id="url" placeholder="Enter a LOOOOONGGG Url" required="required">
+                    <div class="invalid-feedback">
+                        Please enter a url.
+                    </div>
+                </div>
+                <a class="btn btn-outline-secondary" data-bs-toggle="collapse" href="#options" role="button">
+                    Options <i class="mdi mdi-cog"></i>
+                </a>
+                <a href="#" class="btn btn-outline-success">
+                    Generate <i class="mdi mdi-send-variant"></i>
+                </a>
+                <div class="collapse mt-2" id="options">
+                    <div class="card card-body form-inline">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" id="isRemaining" data-bs-toggle="collapse" data-bs-target="#remainingOptions" checked="checked">
+                            <label class="form-check-label" for="isRemaining">
+                                Remove after Time?
+                            </label>
+                        </div>
+                        <div class="row collapse show" id="remainingOptions">
+                            <div class="col">
+                                <div class="form-group my-2">
+                                    <input type="number" class="form-control bg-transparent" id="remainingTime" placeholder="Enter Time" value="7" min="1" max="31">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group my-2">
+                                    <select class="form-control bg-transparent" id="exampleFormControlSelect1">
+                                        <option value="days">Days</option>
+                                        <option value="hours">Hours</option>
+                                        <option value="minutes">Minutes</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="1" id="isLimited" data-bs-toggle="collapse" data-bs-target="#limitedOptions">
+                            <label class="form-check-label" for="isLimited">
+                                Limit Clicks?
+                            </label>
+                        </div>
+                        <div class="row collapse" id="limitedOptions">
+                            <div class="col">
+                                <div class="form-group my-2">
+                                    <input type="number" class="form-control bg-transparent" id="limit" placeholder="Enter Limit" value="15" min="1" max="1024">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}
