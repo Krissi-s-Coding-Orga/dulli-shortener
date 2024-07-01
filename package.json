@@ -1,0 +1,13 @@
+{
+    "type": "module",
+    "private": true,
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "sass": "^1.77.6",
+        "vite": "^5.0",
+        "vite-plugin-symfony": "^6.4"
+    }
+}
