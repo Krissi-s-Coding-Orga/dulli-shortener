@@ -18,7 +18,7 @@
             <div class="navbar navbar-dark bg-dark box-shadow">
                 <div class="container d-flex justify-content-between">
                     <a href="{{ app.request.getSchemeAndHttpHost() }}" class="navbar-brand d-flex align-items-center">
-                        <strong>Dull.li</strong><span style="margin-left: 5px" class="text-secondary">Shortener</span>
+                        <strong>{{ app.request.server.get('HEADER_TITLE') }}</strong><span style="margin-left: 5px" class="text-secondary">Shortener</span>
                     </a>
                 </div>
             </div>
@@ -26,10 +26,10 @@
         <main role="main" class="d-flex flex-row align-items-center justify-content-center">
             {% block body %}{% endblock %}
         </main>
-        <footer class="bd-footer py-1 py-md-3 mt-5 bg-dark box-shadow">
-            <div class="container">
-                S
-            </div>
+        <footer class="bd-footer py-1 py-md-3 mt-5 d-flex w-100 justify-content-center">
+            <a href="{{ app.request.server.get('INPRINT_URL') }}" class="text-decoration-none link-secondary footer-link px-4 py-1" target="_blank">
+                Inprint <i class="mdi mdi-open-in-new" style="margin-left: 5px"></i>
+            </a>
         </footer>
     </body>
 </html>

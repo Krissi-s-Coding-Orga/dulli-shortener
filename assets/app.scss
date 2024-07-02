@@ -25,12 +25,24 @@ footer {
 
 .main-card {
   width: 550px;
+  border-radius: 15px;
 }
 
 .input-group-append {
   * {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+  }
+}
+
+.footer-link {
+  background-color: rgba(33, 37, 41, 0.62);
+  backdrop-filter: blur(3px);
+  border-radius: 5px;
+  transition: .15s ease-in-out;
+
+  &:hover {
+    color: #d8d8d8 !important;
   }
 }
 

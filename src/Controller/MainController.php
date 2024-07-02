@@ -36,6 +36,28 @@ class MainController extends AbstractController
             ->setHash(bin2hex(random_bytes(4)))
             ->setUrl($data['url']);
 
+
+        if(array_key_exists('isCustom', $data) && $data['isCustom'] === '1') {
+            $customValid = true;
+            $customToken = $_ENV['CUSTOM_TOKEN'];
+
+            if(!array_key_exists('customHash', $data)) {
+                $customValid = false;
+            }
+
+            if(!array_key_exists('customToken', $data) || $data['customToken'] !== $customToken) {
+                $customValid = false;
+            }
+
+            if($customValid) {
+                $oldUrl = $this->urlRepository->findOneByHash($data['customHash']);
+                if($oldUrl !== null) {
+                    $this->urlRepository->removeUrl($oldUrl);
+                }
+                $url->setHash($data['customHash']);
+            }
+        }
+
         if(array_key_exists('isLimited', $data) && $data['isLimited'] === '1') {
             if(!array_key_exists('limit', $data)) {
                 return $this->render('main/index.html.twig', [
