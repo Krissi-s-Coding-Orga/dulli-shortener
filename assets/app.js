@@ -1,4 +1,3 @@
-import "bootstrap/dist/js/bootstrap.min.js"
 import {Tooltip} from "bootstrap";
 
 window.addEventListener('load', (event) => {
