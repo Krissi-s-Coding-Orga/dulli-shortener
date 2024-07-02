@@ -8,13 +8,10 @@ framework:
 
     #esi: true
     #fragments: true
+    assets:
+        packages:
+            vite:
+                version_strategy: 'Pentatrion\ViteBundle\Asset\ViteAssetVersionStrategy'
 
-when@test:
+when@dev:
     framework:
-        test: true
-        session:
-            storage_factory_id: session.storage.factory.mock_file
-        assets:
-            packages:
-                vite:
-                    version_strategy: 'Pentatrion\ViteBundle\Asset\ViteAssetVersionStrategy'
