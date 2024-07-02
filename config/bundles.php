@@ -11,4 +11,5 @@ return [
     Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
     Pentatrion\ViteBundle\PentatrionViteBundle::class => ['all' => true],
+    Setono\BotDetectionBundle\SetonoBotDetectionBundle::class => ['all' => true],
 ];

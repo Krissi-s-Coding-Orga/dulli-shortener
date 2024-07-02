@@ -52,6 +52,9 @@
             "tests/bootstrap.php"
         ]
     },
+    "setono/bot-detection-bundle": {
+        "version": "v1.12.0"
+    },
     "symfony/asset-mapper": {
         "version": "7.1",
         "recipe": {

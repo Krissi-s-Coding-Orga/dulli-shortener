@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Url;
 use App\Repository\UrlRepository;
 use DateTime;
+use Setono\BotDetectionBundle\BotDetector\BotDetectorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +14,8 @@ use Symfony\Component\Routing\Attribute\Route;
 class MainController extends AbstractController
 {
     public function __construct(
-        protected readonly UrlRepository $urlRepository
+        protected readonly UrlRepository $urlRepository,
+        protected readonly BotDetectorInterface $botDetector
     ) {
 
     }
@@ -28,6 +30,12 @@ class MainController extends AbstractController
         ) {
             return $this->render('main/index.html.twig', [
                 'invalid' => 'syntax'
+            ]);
+        }
+
+        if(str_starts_with($data['url'], $request->getSchemeAndHttpHost())) {
+            return $this->render('main/index.html.twig', [
+                'invalid' => 'same'
             ]);
         }
 
@@ -121,7 +129,7 @@ class MainController extends AbstractController
     {
         $url = $this->urlRepository->findOneByHash($hash);
 
-        if($url) {
+        if($url && !$this->botDetector->isBotRequest()) {
             if($url->getRemainingClicks() !== null) {
                 $url->setRemainingClicks($url->getRemainingClicks() - 1);
 
