@@ -1,0 +1,6 @@
+when@prod:
+  pentatrion_vite:
+    cache: true
+    script_attributes:
+      defer: true
+      referrerpolicy: origin
