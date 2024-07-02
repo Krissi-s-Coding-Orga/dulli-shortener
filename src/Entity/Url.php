@@ -17,7 +17,7 @@ class Url
     #[ORM\Column(length: 255)]
     private ?string $hash = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $url = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
