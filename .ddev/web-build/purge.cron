@@ -1,0 +1,2 @@
+
+* * * * * cd /var/www/html && IS_DDEV_PROJECT=true php bin/console app:purge-expired

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Url;
 use App\Repository\UrlRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,32 +17,108 @@ class MainController extends AbstractController
     ) {
 
     }
-    #[Route('/{hash}', name: 'app_main')]
-    public function index(?string $hash = null): Response
-    {;
-        return $this->render('main/index.html.twig', [
-            'controller_name' => 'MainController',
-        ]);
-    }
 
     #[Route('/api', name: 'app_api', methods: ['POST'])]
     public function api(Request $request): Response
     {
         $data = $request->getPayload()->all();
 
-        $url = new Url();
-        $url
-            ->setHash(bin2hex(random_bytes(10)))
-            ->setUrl($data['url']);
-
-        if($data['isLimited']) {
-            $url->setRemainingClicks(intval($data['limited']));
+        if(
+            !filter_var($data['url'], FILTER_VALIDATE_URL)
+        ) {
+            return $this->render('main/index.html.twig', [
+                'invalid' => 'syntax'
+            ]);
         }
 
+        $url = new Url();
+        $url
+            ->setHash(bin2hex(random_bytes(4)))
+            ->setUrl($data['url']);
 
+        if(array_key_exists('isLimited', $data) && $data['isLimited'] === '1') {
+            if(!array_key_exists('limit', $data)) {
+                return $this->render('main/index.html.twig', [
+                    'invalid' => 'syntax'
+                ]);
+            }
+
+            $limit = intval($data['limit']);
+
+            if(!$limit || $limit < 1 || $limit > 1024) {
+                return $this->render('main/index.html.twig', [
+                    'invalid' => 'syntax'
+                ]);
+            }
+
+
+            $url->setRemainingClicks($limit);
+        }
+
+        if(array_key_exists('isRemaining', $data) && $data['isRemaining'] === '1') {
+            if(!array_key_exists('remainingTime', $data) || !array_key_exists('remainingUnit', $data)) {
+                return $this->render('main/index.html.twig', [
+                    'invalid' => 'syntax'
+                ]);
+            }
+
+            $validUnits = [
+                'days', 'hours', 'minutes'
+            ];
+
+            $remainingTime = intval($data['remainingTime']);
+            $remainingUnit = $data['remainingUnit'];
+
+            if(!in_array($remainingUnit, $validUnits)) {
+                return $this->render('main/index.html.twig', [
+                    'invalid' => 'syntax'
+                ]);
+            }
+
+            if(!$remainingTime || $remainingTime < 1 || $remainingTime > 31) {
+                return $this->render('main/index.html.twig', [
+                    'invalid' => 'syntax'
+                ]);
+            }
+
+            $date = new DateTime();
+            $date->modify("+{$remainingTime}{$data['remainingUnit']}");
+
+            $url->setEndDate($date);
+        }
+
+        $this->urlRepository->updateUrl($url);
 
         return $this->render('main/index.html.twig', [
-            'controller_name' => 'MainController',
+            'url' => $url,
         ]);
+    }
+
+    #[Route('/{hash}', name: 'app_main')]
+    public function index(?string $hash = null): Response
+    {
+        $url = $this->urlRepository->findOneByHash($hash);
+
+        if($url) {
+            if($url->getRemainingClicks() !== null) {
+                $url->setRemainingClicks($url->getRemainingClicks() - 1);
+
+                if($url->getRemainingClicks() === 0) {
+                    $this->urlRepository->removeUrl($url);
+                } else {
+                    $this->urlRepository->updateUrl($url);
+                }
+            }
+
+            return $this->redirect($url->getUrl());
+        }
+
+        if($hash) {
+            return $this->render('main/index.html.twig', [
+                'invalid' => 'missing'
+            ]);
+        }
+
+        return $this->render('main/index.html.twig', []);
     }
 }

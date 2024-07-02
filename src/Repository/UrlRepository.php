@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Url;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +17,28 @@ class UrlRepository extends ServiceEntityRepository
         parent::__construct($registry, Url::class);
     }
 
-    //    /**
-    //     * @return Url[] Returns an array of Url objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function removeUrl(Url $url, bool $flush = true): void
+    {
+        $this->getEntityManager()->remove($url);
 
-    //    public function findOneBySomeField($value): ?Url
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        if($flush) $this->getEntityManager()->flush();
+    }
+
+    public function updateUrl(Url $url, bool $flush = true): void
+    {
+        $this->getEntityManager()->persist($url);
+
+        if($flush) $this->getEntityManager()->flush();
+    }
+
+    public function purgeExpired() {
+        $date = new DateTime();
+        $this->createQueryBuilder('u')
+            ->where('u.endDate < :date')
+            ->andWhere('u.endDate IS NOT NULL')
+            ->setParameter('date', $date)
+            ->delete()
+            ->getQuery()
+            ->getResult();
+    }
 }

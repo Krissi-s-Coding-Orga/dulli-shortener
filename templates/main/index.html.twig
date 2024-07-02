@@ -1,64 +1,80 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MainController!{% endblock %}
+{% block title %}Dull.li Shortener{% endblock %}
 
 {% block body %}
     <div class="card border-0 main-card">
         <div class="card-body">
-            <form class="form-inline">
-                <h5 class="card-title">Generate Shorter URL with ez</h5>
-                <div class="form-group my-2">
-                    <input type="text" class="form-control bg-transparent" name="url" id="url" placeholder="Enter a LOOOOONGGG Url" required="required">
-                    <div class="invalid-feedback">
-                        Please enter a url.
+            <h5 class="card-title">Generate Shorter URL with ez</h5>
+            {% if invalid is defined %}
+                {% if invalid == 'missing' %}
+                    <p class="card-text text-danger">shortend URL not found!</p>
+                {% elseif invalid == 'syntax' %}
+                    <p class="card-text text-danger">syntax error in request!</p>
+                {% endif %}
+            {% endif %}
+            {% if url is defined %}
+                <div class="input-group my-2">
+                    <input type="text" class="form-control bg-transparent" name="url" id="url" placeholder="URL" value="{{ app.request.getSchemeAndHttpHost() }}/{{ url.hash }}">
+                    <div class="input-group-append bg-transparent">
+                        <span class="input-group-text btn btn-outline-secondary" id="copyButton" data-bs-toggle="tooltip" data-bs-placement="top" title="Copied!">Copy <i class="mdi mdi-clipboard-edit" style="margin-left: 5px"></i> </span>
                     </div>
                 </div>
-                <a class="btn btn-outline-secondary" data-bs-toggle="collapse" href="#options" role="button">
-                    Options <i class="mdi mdi-cog"></i>
-                </a>
-                <a href="#" class="btn btn-outline-success">
-                    Generate <i class="mdi mdi-send-variant"></i>
-                </a>
-                <div class="collapse mt-2" id="options">
-                    <div class="card card-body form-inline">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="1" id="isRemaining" name="isRemaining" data-bs-toggle="collapse" data-bs-target="#remainingOptions" checked="checked">
-                            <label class="form-check-label" for="isRemaining">
-                                Remove after Time?
-                            </label>
+            {% else %}
+                <form class="form-inline needs-validation" id="urlForm" novalidate>
+                    <div class="form-group my-2">
+                        <input type="text" class="form-control bg-transparent" name="url" id="url" placeholder="Enter a LOOOOONGGG Url" required="required">
+                        <div class="invalid-feedback">
+                            Please enter a valid url.
                         </div>
-                        <div class="row collapse show" id="remainingOptions">
-                            <div class="col">
-                                <div class="form-group my-2">
-                                    <input type="number" class="form-control bg-transparent" id="remainingTime" name="remainingTime" placeholder="Enter Time" value="7" min="1" max="31">
+                    </div>
+                    <button type="button" id="formOptions" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#options" role="button">
+                        Options <i class="mdi mdi-cog"></i>
+                    </button>
+                    <button type="submit" id="formSubmit" class="btn btn-outline-success">
+                        Generate <i class="mdi mdi-send-variant"></i>
+                    </button>
+                    <div class="collapse mt-2" id="options">
+                        <div class="card card-body form-inline">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="1" id="isRemaining" name="isRemaining" data-bs-toggle="collapse" data-bs-target="#remainingOptions" checked="checked">
+                                <label class="form-check-label" for="isRemaining">
+                                    Remove after Time?
+                                </label>
+                            </div>
+                            <div class="row collapse show" id="remainingOptions">
+                                <div class="col">
+                                    <div class="form-group my-2">
+                                        <input type="number" class="form-control bg-transparent" id="remainingTime" name="remainingTime" placeholder="Enter Time" value="7" min="1" max="31">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group my-2">
+                                        <select class="form-control bg-transparent" id="exampleFormControlSelect1" name="remainingUnit">
+                                            <option value="days">Days</option>
+                                            <option value="hours">Hours</option>
+                                            <option value="minutes">Minutes</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="form-group my-2">
-                                    <select class="form-control bg-transparent" id="exampleFormControlSelect1">
-                                        <option value="days">Days</option>
-                                        <option value="hours">Hours</option>
-                                        <option value="minutes">Minutes</option>
-                                    </select>
-                                </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="1" id="isLimited" name="isLimited" data-bs-toggle="collapse" data-bs-target="#limitedOptions">
+                                <label class="form-check-label" for="isLimited">
+                                    Limit Clicks?
+                                </label>
                             </div>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="1" id="isLimited" name="isLimited" data-bs-toggle="collapse" data-bs-target="#limitedOptions">
-                            <label class="form-check-label" for="isLimited">
-                                Limit Clicks?
-                            </label>
-                        </div>
-                        <div class="row collapse" id="limitedOptions">
-                            <div class="col">
-                                <div class="form-group my-2">
-                                    <input type="number" class="form-control bg-transparent" id="limit" name="limit" placeholder="Enter Limit" value="15" min="1" max="1024">
+                            <div class="row collapse" id="limitedOptions">
+                                <div class="col">
+                                    <div class="form-group my-2">
+                                        <input type="number" class="form-control bg-transparent" id="limit" name="limit" placeholder="Enter Limit" value="15" min="1" max="1024">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
