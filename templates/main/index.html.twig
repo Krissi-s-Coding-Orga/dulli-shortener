@@ -8,7 +8,7 @@
             <form class="form-inline">
                 <h5 class="card-title">Generate Shorter URL with ez</h5>
                 <div class="form-group my-2">
-                    <input type="text" class="form-control bg-transparent" id="url" placeholder="Enter a LOOOOONGGG Url" required="required">
+                    <input type="text" class="form-control bg-transparent" name="url" id="url" placeholder="Enter a LOOOOONGGG Url" required="required">
                     <div class="invalid-feedback">
                         Please enter a url.
                     </div>
@@ -22,7 +22,7 @@
                 <div class="collapse mt-2" id="options">
                     <div class="card card-body form-inline">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="1" id="isRemaining" data-bs-toggle="collapse" data-bs-target="#remainingOptions" checked="checked">
+                            <input class="form-check-input" type="checkbox" value="1" id="isRemaining" name="isRemaining" data-bs-toggle="collapse" data-bs-target="#remainingOptions" checked="checked">
                             <label class="form-check-label" for="isRemaining">
                                 Remove after Time?
                             </label>
@@ -30,7 +30,7 @@
                         <div class="row collapse show" id="remainingOptions">
                             <div class="col">
                                 <div class="form-group my-2">
-                                    <input type="number" class="form-control bg-transparent" id="remainingTime" placeholder="Enter Time" value="7" min="1" max="31">
+                                    <input type="number" class="form-control bg-transparent" id="remainingTime" name="remainingTime" placeholder="Enter Time" value="7" min="1" max="31">
                                 </div>
                             </div>
                             <div class="col">
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="1" id="isLimited" data-bs-toggle="collapse" data-bs-target="#limitedOptions">
+                            <input class="form-check-input" type="checkbox" value="1" id="isLimited" name="isLimited" data-bs-toggle="collapse" data-bs-target="#limitedOptions">
                             <label class="form-check-label" for="isLimited">
                                 Limit Clicks?
                             </label>
@@ -52,7 +52,7 @@
                         <div class="row collapse" id="limitedOptions">
                             <div class="col">
                                 <div class="form-group my-2">
-                                    <input type="number" class="form-control bg-transparent" id="limit" placeholder="Enter Limit" value="15" min="1" max="1024">
+                                    <input type="number" class="form-control bg-transparent" id="limit" name="limit" placeholder="Enter Limit" value="15" min="1" max="1024">
                                 </div>
                             </div>
                         </div>
