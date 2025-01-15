@@ -6,8 +6,8 @@
         "build": "vite build"
     },
     "devDependencies": {
-        "sass": "^1.77.6",
-        "vite": "^5.0",
+        "sass": "^1.83",
+        "vite": "^5",
         "vite-plugin-symfony": "^6.4"
     },
     "dependencies": {
