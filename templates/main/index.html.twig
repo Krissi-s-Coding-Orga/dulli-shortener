@@ -50,29 +50,29 @@
                             <div class="row collapse show" id="remainingOptions">
                                 <div class="col">
                                     <div class="form-group my-2">
-                                        <input type="number" class="form-control" id="remainingTime" name="remainingTime" placeholder="Enter Time" value="7" min="1" max="31">
+                                        <input type="number" class="form-control" id="remainingTime" name="remainingTime" placeholder="Enter Time" value="6" min="1" max="31">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group my-2">
                                         <select class="form-control" id="exampleFormControlSelect1" name="remainingUnit">
                                             <option value="days">Days</option>
-                                            <option value="hours">Hours</option>
+                                            <option value="hours" selected>Hours</option>
                                             <option value="minutes">Minutes</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" id="isLimited" name="isLimited" data-bs-toggle="collapse" data-bs-target="#limitedOptions">
+                                <input class="form-check-input" type="checkbox" value="1" id="isLimited" name="isLimited" data-bs-toggle="collapse" data-bs-target="#limitedOptions" checked="checked">
                                 <label class="form-check-label" for="isLimited">
                                     Limit Clicks?
                                 </label>
                             </div>
-                            <div class="row collapse" id="limitedOptions">
+                            <div class="row collapse show" id="limitedOptions">
                                 <div class="col">
                                     <div class="form-group my-2">
-                                        <input type="number" class="form-control" id="limit" name="limit" placeholder="Enter Limit" value="15" min="1" max="1024">
+                                        <input type="number" class="form-control" id="limit" name="limit" placeholder="Enter Limit" value="10" min="1" max="1024">
                                     </div>
                                 </div>
                             </div>
@@ -95,6 +95,9 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="mt-2 text-muted">
+                        Note: all shortened links are limited to 6h and 10 click.
                     </div>
                 </form>
             {% endif %}

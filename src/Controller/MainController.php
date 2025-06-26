@@ -24,6 +24,7 @@ class MainController extends AbstractController
     public function api(Request $request): Response
     {
         $data = $request->getPayload()->all();
+        $customValid = false;
 
         if(
             !filter_var($data['url'], FILTER_VALIDATE_URL)
@@ -63,6 +64,34 @@ class MainController extends AbstractController
                     $this->urlRepository->removeUrl($oldUrl);
                 }
                 $url->setHash($data['customHash']);
+            }
+        }
+
+        if(!$customValid) {
+            if(!array_key_exists('isLimited', $data) || $data['isLimited'] !== '1') {
+                $data['isLimited'] = '1';
+                $data['limit'] = '10';
+            }
+
+            $limit = intval($data['limit']);
+
+            if($limit > 10) {
+                $data['limit'] = '10';
+            }
+
+            if(!array_key_exists('isRemaining', $data) || $data['isRemaining'] !== '1') {
+                $data['isRemaining'] = '1';
+                $data['remainingUnit'] = 'hours';
+                $data['remainingTime'] = '6';
+            }
+
+            if($data['remainingUnit'] === 'days') {
+                $data['remainingUnit'] = 'hours';
+                $data['remainingTime'] = '6';
+            }
+
+            if($data['remainingUnit'] === 'hours' && intval($data['remainingTime']) > 6) {
+                $data['remainingTime'] = '6';
             }
         }
 
